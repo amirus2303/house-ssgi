@@ -3,6 +3,8 @@ import Building from "./Building";
 import { useControls } from "leva";
 import { useRef } from "react";
 import { DirectionalLightHelper } from "three";
+import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
 
 //import { extend, useThree } from "@react-three/fiber";
 
@@ -210,6 +212,36 @@ const Experience = () => {
     }
   );
 
+  const { focusDistance, focalLength, bokehScale, height } = useControls(
+    "Depth of field",
+    {
+      focusDistance: {
+        value: 0.09,
+        min: 0,
+        max: 1,
+        step: 0.00001,
+      },
+      focalLength: {
+        value: 0.75,
+        min: 0,
+        max: 1,
+        step: 0.00001,
+      },
+      bokehScale: {
+        value: 5,
+        min: 0,
+        max: 100,
+        step: 0.001,
+      },
+      height: {
+        value: 600,
+        min: 0,
+        max: 10000,
+        step: 1,
+      },
+    }
+  );
+
   const directionnalLight = useRef();
   useHelper(directionnalLight, DirectionalLightHelper, "red");
 
@@ -252,7 +284,7 @@ const Experience = () => {
   // }, [resetCamera]);
 
   const { size, focus, samples } = useControls("Soft Shadow", {
-    size: { value: 35, min: 0, max: 100, step: 0.001 },
+    size: { value: 5, min: 0, max: 100, step: 0.001 },
     focus: { value: 0.5, min: 0, max: 20, step: 0.001 },
     samples: { value: 16, min: 1, max: 100, step: 1 },
   });
@@ -291,6 +323,16 @@ const Experience = () => {
         rotation={[0, Math.PI * 0.2, 0]}
         position={[0, 0, 0]}
       />
+      <EffectComposer>
+        <DepthOfField
+          focusDistance={focusDistance}
+          focalLength={focalLength}
+          bokehScale={bokehScale}
+          height={height}
+          blendFunction={BlendFunction.Screen}
+          blur={true}
+        />
+      </EffectComposer>
     </>
   );
 };
