@@ -9,7 +9,7 @@ const App = () => {
       <Canvas
         flat
         gl={{ preserveDrawingBuffer: true }}
-        camera={{ position: [2.3, 1, 1], fov: 30 }}
+        camera={{ position: [2.3, 0.7, 1], fov: 30 }}
         shadows
       >
         <Suspense fallback={null}>

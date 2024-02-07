@@ -266,7 +266,7 @@ const Experience = () => {
         intensity={intensity}
         position={[position.x, position.y, position.z]}
       />
-      <OrbitControls makeDefault />
+      <OrbitControls makeDefault target={[0, 0.1, 0]} />
       {/* <CameraControls ref={cameraControl} makeDefault /> */}
       {/* <Effects
         distance={distance}
