@@ -2,8 +2,26 @@ import { Canvas } from "@react-three/fiber";
 import { Loader, Environment } from "@react-three/drei";
 import { Suspense } from "react";
 import Experience from "./components/Experience";
+import { useControls } from "leva";
 
 const App = () => {
+  const { environment } = useControls("Environment Map", {
+    environment: {
+      options: [
+        "apartment",
+        "city",
+        "dawn",
+        "forest",
+        "lobby",
+        "night",
+        "park",
+        "studio",
+        "warehouse",
+        "sunset",
+      ],
+    },
+  });
+
   return (
     <>
       <Canvas
@@ -13,7 +31,7 @@ const App = () => {
         shadows
       >
         <Suspense fallback={null}>
-          <Environment preset="sunset" />
+          <Environment preset={environment || "city"} />
           <Experience />
         </Suspense>
       </Canvas>
