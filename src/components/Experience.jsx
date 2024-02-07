@@ -3,6 +3,7 @@ import Building from "./Building";
 import { useControls } from "leva";
 import { useRef } from "react";
 import { DirectionalLightHelper } from "three";
+
 //import { extend, useThree } from "@react-three/fiber";
 
 //import { EffectComposer } from "@react-three/postprocessing";
@@ -265,6 +266,7 @@ const Experience = () => {
         ref={directionnalLight}
         intensity={intensity}
         position={[position.x, position.y, position.z]}
+        target-position={[0.6, 0, 0.5]}
       />
       <OrbitControls makeDefault target={[0, 0.1, 0]} />
       {/* <CameraControls ref={cameraControl} makeDefault /> */}
