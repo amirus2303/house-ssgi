@@ -31,13 +31,13 @@ const useGetTexture = () => {
   const murs = useTexture({
     map: "./building/murs/diffuse.jpg",
     normalMap: "./building/murs/normal.jpg",
-    roughnessMap: "./building/murs/roughness.jpg",
+    // roughnessMap: "./building/murs/roughness.jpg",
     metalnessMap: "./building/murs/metalness.jpg",
   })
   const poutres = useTexture({
     map: "./building/poutres/diffuse.jpg",
     normalMap: "./building/poutres/normal.jpg",
-    roughnessMap: "./building/poutres/roughness.jpg",
+    // roughnessMap: "./building/poutres/roughness.jpg",
     metalnessMap: "./building/poutres/metalness.jpg",
   })
   const rideaux = useTexture({
@@ -55,7 +55,7 @@ const useGetTexture = () => {
   const sol = useTexture({
     map: "./building/sol/diffuse.jpg",
     normalMap: "./building/sol/normal.jpg",
-    roughnessMap: "./building/sol/roughness.jpg",
+    // roughnessMap: "./building/sol/roughness.jpg",
     metalnessMap: "./building/sol/metalness.jpg",
   })
 

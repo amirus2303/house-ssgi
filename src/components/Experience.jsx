@@ -1,195 +1,19 @@
-import { OrbitControls, SoftShadows, useHelper } from "@react-three/drei";
+import {
+  Environment,
+  OrbitControls,
+  SoftShadows,
+  useHelper,
+} from "@react-three/drei";
+
 import Building from "./Building";
+import { Effects } from "./Effects";
 import { useControls } from "leva";
 import { useRef } from "react";
 import { DirectionalLightHelper } from "three";
-import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import { EffectComposer, DepthOfField, SSR } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 
-//import { extend, useThree } from "@react-three/fiber";
-
-//import { EffectComposer } from "@react-three/postprocessing";
-
-//import * as POSTPROCESSING from "postprocessing";
-//import { EffectPass } from "postprocessing";
-// import {
-//   SSGIEffect,
-//   TRAAEffect,
-//   MotionBlurEffect,
-//   VelocityDepthNormalPass,
-// } from "realism-effects";
-
-// extend({
-//   VelocityDepthNormalPass,
-//   SSGIPass: class extends EffectPass {
-//     constructor(scene, camera, velocityDepthNormalPass) {
-//       super(camera, new SSGIEffect(scene, camera, velocityDepthNormalPass));
-//     }
-//   },
-//   TRAAPass: class extends EffectPass {
-//     constructor(scene, camera, velocityDepthNormalPass) {
-//       super(camera, new TRAAEffect(scene, camera, velocityDepthNormalPass));
-//     }
-//   },
-// });
-
-// function Effects({
-//   distance,
-//   thickness,
-//   denoiseIterations,
-//   radius,
-//   phi,
-//   lumaPhi,
-//   depthPhi,
-//   normalPhi,
-//   roughnessPhi,
-//   specularPhi,
-//   envBlur,
-//   steps,
-//   refineSteps,
-// }) {
-//   const [velocityDepthNormalPass, setVelocityDepthNormalPass] = useState(null);
-//   const scene = useThree((state) => state.scene);
-//   const camera = useThree((state) => state.camera);
-
-//   return (
-//     <EffectComposer disableNormalPass multisampling={0}>
-//       <velocityDepthNormalPass
-//         ref={setVelocityDepthNormalPass}
-//         args={[scene, camera]}
-//       />
-//       {velocityDepthNormalPass && (
-//         <>
-//           <sSGIPass
-//             args={[
-//               scene,
-//               camera,
-//               velocityDepthNormalPass,
-//               {
-//                 distance,
-//                 thickness,
-//                 denoiseIterations,
-//                 radius,
-//                 phi,
-//                 lumaPhi,
-//                 depthPhi,
-//                 normalPhi,
-//                 roughnessPhi,
-//                 specularPhi,
-//                 envBlur,
-//                 steps,
-//                 refineSteps,
-//               },
-//             ]}
-//           />
-//           <tRAAPass args={[scene, camera, velocityDepthNormalPass]} />
-//         </>
-//       )}
-//     </EffectComposer>
-//   );
-// }
-
 const Experience = () => {
-  // const {
-  //   distance,
-  //   thickness,
-  //   denoiseIterations,
-  //   radius,
-  //   phi,
-  //   lumaPhi,
-  //   depthPhi,
-  //   normalPhi,
-  //   roughnessPhi,
-  //   specularPhi,
-  //   envBlur,
-  //   steps,
-  //   refineSteps,
-  // } = useControls("SSGI", {
-  //   distance: {
-  //     value: 5.98,
-  //     min: 0,
-  //     max: 50,
-  //     step: 0.001,
-  //   },
-  //   thickness: {
-  //     value: 2.82,
-  //     min: 0,
-  //     max: 10,
-  //     step: 0.001,
-  //   },
-  //   envBlur: {
-  //     value: 1,
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.001,
-  //   },
-  //   denoiseIterations: {
-  //     value: 1,
-  //     min: 0,
-  //     max: 5,
-  //     step: 1,
-  //   },
-  //   radius: {
-  //     value: 11,
-  //     min: 0,
-  //     max: 32,
-  //     step: 1,
-  //   },
-  //   phi: {
-  //     value: 0.875,
-  //     min: 0,
-  //     max: 1,
-  //     step: 0.001,
-  //   },
-  //   depthPhi: {
-  //     value: 23.37,
-  //     min: 0,
-  //     max: 50,
-  //     step: 0.001,
-  //   },
-
-  //   normalPhi: {
-  //     value: 26.087,
-  //     min: 0,
-  //     max: 100,
-  //     step: 0.001,
-  //   },
-
-  //   roughnessPhi: {
-  //     value: 18.47,
-  //     min: 0,
-  //     max: 100,
-  //     step: 0.001,
-  //   },
-
-  //   lumaPhi: {
-  //     value: 20.65,
-  //     min: 0,
-  //     max: 50,
-  //     step: 0.001,
-  //   },
-  //   specularPhi: {
-  //     value: 7.09,
-  //     min: 0,
-  //     max: 10,
-  //     step: 0.001,
-  //   },
-
-  //   steps: {
-  //     value: 20,
-  //     min: 0,
-  //     max: 256,
-  //     step: 1,
-  //   },
-
-  //   refineSteps: {
-  //     value: 4,
-  //     min: 0,
-  //     max: 16,
-  //     step: 1,
-  //   },
-  // });
-
   const { position, intensity, shadowBias } = useControls(
     "Directionnal light",
     {
@@ -245,49 +69,43 @@ const Experience = () => {
   const directionnalLight = useRef();
   useHelper(directionnalLight, DirectionalLightHelper, "red");
 
-  // const cameraControl = useRef();
-  // const [resetCamera] = useState(true);
-
-  // const scene = useThree((state) => state.scene);
-  // const camera = useThree((state) => state.camera);
-  // const gl = useThree((state) => state.gl);
-  // const composer = new POSTPROCESSING.EffectComposer(gl);
-  // const velocityDepthNormalPass = new VelocityDepthNormalPass(scene, camera);
-  // composer.addPass(velocityDepthNormalPass);
-  // const ssgiEffect = new SSGIEffect(scene, camera, velocityDepthNormalPass, {
-  //   distance,
-  //   thickness,
-  //   denoiseIterations,
-  //   radius,
-  //   phi,
-  //   lumaPhi,
-  //   depthPhi,
-  //   normalPhi,
-  //   roughnessPhi,
-  //   specularPhi,
-  //   envBlur,
-  //   steps,
-  //   refineSteps,
-  // });
-  // const traaEffect = new TRAAEffect(scene, camera, velocityDepthNormalPass);
-  // const effectPass = new POSTPROCESSING.EffectPass(
-  //   camera,
-  //   ssgiEffect,
-  //   traaEffect
-  // );
-  // composer.addPass(effectPass);
-  // useEffect(() => {
-  //   if (resetCamera) {
-  //     console.log(cameraControl.current);
-  //     cameraControl.current.setLookAt(2.3, 1, 0, -2, 0.5, 1, true);
-  //   }
-  // }, [resetCamera]);
-
   const { size, focus, samples } = useControls("Soft Shadow", {
     size: { value: 5, min: 0, max: 100, step: 0.001 },
     focus: { value: 0.5, min: 0, max: 20, step: 0.001 },
     samples: { value: 16, min: 1, max: 100, step: 1 },
   });
+
+  // const { enabled, ...ssrProps } = useControls("SSR", {
+  //   enabled: true,
+  //   temporalResolve: true,
+  //   STRETCH_MISSED_RAYS: true,
+  //   USE_MRT: true,
+  //   USE_NORMALMAP: true,
+  //   USE_ROUGHNESSMAP: true,
+  //   ENABLE_JITTERING: true,
+  //   ENABLE_BLUR: true,
+  //   temporalResolveMix: { value: 0.9, min: 0, max: 1 },
+  //   temporalResolveCorrectionMix: { value: 0.4, min: 0, max: 1 },
+  //   maxSamples: { value: 0, min: 0, max: 1 },
+  //   resolutionScale: { value: 1, min: 0, max: 1 },
+  //   blurMix: { value: 0.2, min: 0, max: 1 },
+  //   blurExponent: { value: 10, min: 0, max: 20 },
+  //   blurKernelSize: { value: 1, min: 0, max: 10 },
+  //   rayStep: { value: 0.5, min: 0, max: 1 },
+  //   intensity: { value: 1, min: 0, max: 5 },
+  //   maxRoughness: { value: 1, min: 0, max: 1 },
+  //   jitter: { value: 0.3, min: 0, max: 5 },
+  //   jitterSpread: { value: 0.25, min: 0, max: 1 },
+  //   jitterRough: { value: 0.1, min: 0, max: 1 },
+  //   roughnessFadeOut: { value: 1, min: 0, max: 1 },
+  //   rayFadeOut: { value: 0, min: 0, max: 1 },
+  //   MAX_STEPS: { value: 20, min: 0, max: 20 },
+  //   NUM_BINARY_SEARCH_STEPS: { value: 6, min: 0, max: 10 },
+  //   maxDepthDifference: { value: 10, min: 0, max: 10 },
+  //   maxDepth: { value: 1, min: 0, max: 1 },
+  //   thickness: { value: 10, min: 0, max: 10 },
+  //   ior: { value: 1.45, min: 0, max: 2 },
+  // });
 
   return (
     <>
@@ -301,29 +119,10 @@ const Experience = () => {
         target-position={[0.6, 0, 0.5]}
       />
       <OrbitControls makeDefault target={[0, 0.1, 0]} />
-      {/* <CameraControls ref={cameraControl} makeDefault /> */}
-      {/* <Effects
-        distance={distance}
-        thickness={thickness}
-        envBlur={envBlur}
-        denoiseIterations={denoiseIterations}
-        radius={radius}
-        phi={phi}
-        depthPhi={depthPhi}
-        normalPhi={normalPhi}
-        roughnessPhi={roughnessPhi}
-        lumaPhi={lumaPhi}
-        specularPhi={specularPhi}
-        steps={steps}
-        refineSteps={refineSteps}
-      /> */}
       <SoftShadows size={size} focus={focus} samples={samples} />
-      <Building
-        scale={0.3}
-        rotation={[0, Math.PI * 0.2, 0]}
-        position={[0, 0, 0]}
-      />
-      <EffectComposer>
+      <EffectComposer disableNormalPass>
+        {/* <RealismEffect /> */}
+        {/* {enabled && <SSR {...ssrProps} />} */}
         <DepthOfField
           focusDistance={focusDistance}
           focalLength={focalLength}
@@ -333,6 +132,13 @@ const Experience = () => {
           blur={true}
         />
       </EffectComposer>
+      <Building
+        scale={0.3}
+        rotation={[0, Math.PI * 0.2, 0]}
+        position={[0, 0, 0]}
+      />
+
+      <Effects />
     </>
   );
 };

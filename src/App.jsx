@@ -25,8 +25,8 @@ const App = () => {
   return (
     <>
       <Canvas
+        gl={{ antialias: false }}
         flat
-        gl={{ preserveDrawingBuffer: true }}
         camera={{ position: [2.3, 0.7, 1], fov: 30 }}
         shadows
       >
